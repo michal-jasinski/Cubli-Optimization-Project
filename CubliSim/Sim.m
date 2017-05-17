@@ -55,17 +55,14 @@ pww_0=[0;0;0];
 pwh_0=[0;0;0];
 
 Q_0 = 0;
-global control;
-control=[0 0 0];
+
 x0 = [g_0;pwh_0;pww_0;PIK_0;Q_0];
-T = zeros(1,2000);
 sample_time = 0.005;
-time = length(T)*sample_time;
+time = 2;
 tspan = 0:sample_time:time;
 
 % [t,x] = ode45(@(t,x)rhs(t,x,Theta_0_ht,m,alpha,beta,gamma,delta),tspan,x0);
-
-[t,x] = rk4(@rhs,x0,time,T,Theta_0_ht,m,alpha,beta,gamma,delta);
+[t,x] = rk4(@rhs,x0,time,sample_time,Theta_0_ht,m);
 
 % Extract data
 PIK=x(:,10:13);
