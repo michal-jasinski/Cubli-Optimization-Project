@@ -38,3 +38,4 @@ t = linspace(0,tf,nt)';
 
 end
 
+% komentarz
