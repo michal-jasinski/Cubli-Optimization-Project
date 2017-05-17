@@ -1,0 +1,3 @@
+LIBRARY CubliModel_sfun.mexw64
+EXPORTS
+mexFunction
