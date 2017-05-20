@@ -1,4 +1,4 @@
-function [t,x,psi,gradient] = rk4(rhs,rhs_sprzezone,x0,tf,sample_time,Theta_0_ht,m)
+function [t,x,psi,gradient] = rk4(rhs,rhs_sprzezone,x0,tf,sample_time,Theta_0_ht,m,u)
 %UNTITLED Summary of this function goes here
 
 % czas
@@ -12,13 +12,13 @@ tau = linspace(0,T,11);
 
 % odleg³oœæ czasowa pomiêdzy tymi wêz³ami
 dtau = diff(tau);
-s = size(dtau);
+% s = size(dtau);
 
 % sterowanie
-u = zeros(s(2),3);
-for i = 1 : s(2)
-      u(i,:) = 1;
-end
+% u = zeros(s(2),3);
+% for i = 1 : s(2)
+%       u(i,:) = 1;
+% end
 
 % iloœæ próbek na ka¿dy wêze³ strukturalny
 n = ceil(dtau/h0);
