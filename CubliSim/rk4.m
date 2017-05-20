@@ -1,13 +1,5 @@
 function [t,x,psi] = rk4(rhs,rhs_sprzezone,x0,tf,sample_time,Theta_0_ht,m)
 %UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-%   @params:
-%   rhs : right side of the differential equation
-%   x0  : initial condition vector
-%   tf  : duration of the simulation
-%   I, m, g, T : params used in rhs
-
-load('optimal_control');
 
 % czas
 T = tf;
@@ -25,9 +17,9 @@ s = size(dtau);
 % sterowanie
 u = zeros(s(2),3);
 for i = 1 : s(2)
-%     u(i,:) = control(2,:);
       u(i,:) = 1;
 end
+
 % iloœæ próbek na ka¿dy wêze³ strukturalny
 n = ceil(dtau/h0);
 
@@ -66,14 +58,12 @@ psi(end,:)=[zeros(13,1);-1];
 
 % Solution of equilibrium equations
 for j = length(dtau): -1 : 1
-    disp('j dla psi'); disp(j)
     h = dtau(j)/n(j);
     h_2=h/2; h_6=h/6; h_3=h/3; h_8=h/8;
     % variables used in calculations
     dpsi1=zeros(length(x0),1);dpsi2=dpsi1;dpsi3=dpsi1;dpsi4=dpsi1;
     dxp = rhs(t,x(cn(j+1),:)',Theta_0_ht,m,u(j,:)');
     for i = cn(j+1) : -1 : cn(j) + 1
-        disp(i)
         psi_tmp = psi(i,:)';
         dpsi1   = rhs_sprzezone(t,psi_tmp,x(i,:)',u(j,:)');
         tmp     = psi_tmp-h_2*dpsi1;
