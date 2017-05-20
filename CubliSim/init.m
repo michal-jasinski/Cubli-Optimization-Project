@@ -1,8 +1,3 @@
-clear all;
-close all;
-
-format long;
-
 %% Define parameters
 
 % Inertia
@@ -30,8 +25,7 @@ g_0=R_IK_0'*[0;0;-9.81];
 % Calculate the m vector (vector to centre of mass * mass)
 m=-g_0/9.81*0.27;
 
-
-%%
+%% Initial conditions
 
 % define initial condtions
 phi=1/180*pi;   % initial inclination, rotate around x-axis of the inertial frame
@@ -43,23 +37,8 @@ g_0=A_IKtmp'*[0;0;-9.81];   % form the gravity vector in the body coordinate fra
 % Cubli initially at rest
 pww_0=[0;0;0];
 pwh_0=[0;0;0];
-
 Q_0 = 0;
 
-sample_time = 0.005;
-time = 0.;
-epsilon=0.00000001;
-
 x0 = [g_0;pwh_0;pww_0;PIK_0;Q_0];
-x0_epsilon = x0;
-dQ_dx0 = zeros(length(x0),1);
-
-for i=1: length(x0)
-    x0_epsilon(i) = x0(i)+epsilon;
-    [t1,x_epsilon,psi_epsilon] = rk4(@rhs,@rhs_sprzezone,x0_epsilon,time,sample_time,Theta_0_ht,m);
-    [t,x,psi] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m);
-    dQ_dx0(i) = (x_epsilon(end,end)-x(end,end))/epsilon;
-    x0_epsilon = x0;
-end
-
-
+sample_time = 0.005;
+time = 2;
