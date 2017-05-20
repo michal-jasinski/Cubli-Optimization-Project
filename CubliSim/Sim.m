@@ -6,6 +6,7 @@
 
 clear all;
 close all;
+format long e; format compact;
 
 %% Define parameters
 
@@ -61,8 +62,13 @@ sample_time = 0.005;
 time = 2;
 tspan = 0:sample_time:time;
 
+load('d1_f_sprzezona.mat');
+global d1_f_sprzezona;
+d1_f_sprzezona = rownania_sprzezone;
+
+disp('symulacja');
 % [t,x] = ode45(@(t,x)rhs(t,x,Theta_0_ht,m,alpha,beta,gamma,delta),tspan,x0);
-[t,x] = rk4(@rhs,x0,time,sample_time,Theta_0_ht,m);
+[t,x,psi] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m);
 
 % Extract data
 PIK=x(:,10:13);

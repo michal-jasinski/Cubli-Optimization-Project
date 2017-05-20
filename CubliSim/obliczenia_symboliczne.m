@@ -1,5 +1,7 @@
 clear all;
 close all;
+
+format compact;
 syms Q
 syms g wh pwh pw m1 m2 m3
 syms g1 g2 g3
@@ -18,6 +20,8 @@ g=[g1; g2; g3];
 pwh=[pwh1; pwh2; pwh3];
 wh=[wh1; wh2; wh3];
 pww=[pww1; pww2; pww3];
+
+wh=Theta_0_ht^-1*(pwh-pww);
 
 dg=cross(-wh,g);
 dpwh=cross(-wh,pwh)+cross(m,g);
@@ -39,10 +43,9 @@ for i =  1 : 14
     end
 end
 
-
 d1_f_sprzezona = subs(dF,[m,Theta_0_ht],[[0.1661; 0.1473; 0.1537],...
          [0.0304 -0.0130 -0.0135; -0.013 0.0342 -0.0128; -0.0135 -0.0128 0.0331]])
      
 matrix2 = subs(d1_f_sprzezona,[wh,pwh,pww,g],[[1;1;1],[1;1;1],[1;1;1],[1;1;1]]);
-matrix2 = double(subs(matrix2,[PIK],[1;1;1;1]))
+matrix2 = double(subs(matrix2,[PIK],[1;1;1;1]));
 
