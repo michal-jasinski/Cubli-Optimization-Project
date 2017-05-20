@@ -54,7 +54,7 @@ for j = 1 : length(dtau)
 end
 
 psi = zeros(size(x));
-psi(end,:)=[zeros(13,1);-1];
+psi(end,:)=[zeros(13,1);-1]; % do przemyœlenia
 
 % Solution of equilibrium equations
 for j = length(dtau): -1 : 1

@@ -31,11 +31,11 @@ for k=1:length(t)
 end
 
 % calculate inclination angle
-figure(1)
-hold all;
-plot(t,acos(I_m(:,3)/norm(m))/pi*180);
-xlabel('time [s]')
-ylabel('inclination angle [deg]')
+% figure(1)
+% hold all;
+% plot(t,acos(I_m(:,3)/norm(m))/pi*180);
+% xlabel('time [s]')
+% ylabel('inclination angle [deg]')
 
 % body angulr velocity
 % wh=(pwh-pww)*Theta_0_ht^-1;
@@ -53,6 +53,6 @@ ylabel('inclination angle [deg]')
 % ylabel('\omega_w [rpm]')
 % xlabel('time [s]')
 
-quality_indicator = x(:,14);
-figure(2);
-plot(quality_indicator);
+% quality_indicator = x(:,14);
+% figure(2);
+% plot(quality_indicator);
