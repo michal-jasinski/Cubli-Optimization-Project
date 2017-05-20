@@ -13,7 +13,7 @@ format long e; format compact;
 init
 
 %% symulation
-[t,x,psi] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m);
+[t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m);
 
 % Extract data
 PIK=x(:,10:13);

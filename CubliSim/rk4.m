@@ -1,4 +1,4 @@
-function [t,x,psi] = rk4(rhs,rhs_sprzezone,x0,tf,sample_time,Theta_0_ht,m)
+function [t,x,psi,gradient] = rk4(rhs,rhs_sprzezone,x0,tf,sample_time,Theta_0_ht,m)
 %UNTITLED Summary of this function goes here
 
 % czas
@@ -55,28 +55,33 @@ end
 
 psi = zeros(size(x));
 psi(end,:)=[zeros(13,1);-1]; % do przemyœlenia
-
+gradient=zeros(length(dtau),3);
 % Solution of equilibrium equations
 for j = length(dtau): -1 : 1
     h = dtau(j)/n(j);
     h_2=h/2; h_6=h/6; h_3=h/3; h_8=h/8;
     % variables used in calculations
     dpsi1=zeros(length(x0),1);dpsi2=dpsi1;dpsi3=dpsi1;dpsi4=dpsi1;
+    d_gradient1=zeros(3,1);d_gradient2=d_gradient1;d_gradient3=d_gradient1;d_gradient4=d_gradient1;
     dxp = rhs(t,x(cn(j+1),:)',Theta_0_ht,m,u(j,:)');
+    gradient_tmp = [0;0;0];
     for i = cn(j+1) : -1 : cn(j) + 1
         psi_tmp = psi(i,:)';
-        dpsi1   = rhs_sprzezone(t,psi_tmp,x(i,:)',u(j,:)');
+        [dpsi1, d_gradient1] = rhs_sprzezone(t,psi_tmp,x(i,:)',u(j,:)');
         tmp     = psi_tmp-h_2*dpsi1;
         dxl     = rhs(t,x(i-1,:)',Theta_0_ht,m,u(j,:)');
         xp      = (x(i-1,:)'+x(i,:)')/2 + (dxl-dxp)*h_8;
         dxp     = dxl;
-        dpsi2   = rhs_sprzezone(t,tmp,xp,u(j,:)');
+        [dpsi2, d_gradient2] = rhs_sprzezone(t,tmp,xp,u(j,:)');
         tmp     = psi_tmp-h_2*dpsi2;
-        dpsi3   = rhs_sprzezone(t,tmp,xp,u(j,:)');
+        [dpsi3, d_gradient3] = rhs_sprzezone(t,tmp,xp,u(j,:)');
         tmp     = psi_tmp-h*dpsi3;
-        dpsi4   = rhs_sprzezone(t,tmp,x(i-1,:)',u(j,:)'); 
+        [dpsi4, d_gradient4] = rhs_sprzezone(t,tmp,x(i-1,:)',u(j,:)'); 
         psi(i-1,:) = psi_tmp - h_3*(dpsi2+dpsi3) - h_6*(dpsi1+dpsi4);
+        gradient_tmp = gradient_tmp - h_3*(d_gradient2+d_gradient3) - h_6*(d_gradient1+d_gradient4);
+        
     end
+    gradient(j,:)=gradient_tmp;
 end
 
 end
