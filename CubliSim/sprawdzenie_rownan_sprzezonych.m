@@ -1,6 +1,7 @@
 clear all;
 close all;
 
+format long;
 
 %% Define parameters
 
@@ -47,10 +48,10 @@ Q_0 = 0;
 
 sample_time = 0.005;
 time = 2;
-epsilon=0.00001;
+epsilon=0.00000001;
 
 x0 = [g_0;pwh_0;pww_0;PIK_0;Q_0];
-x0_epsilon = zeros(length(x0),1);
+x0_epsilon = x0;
 dQ_dx0 = zeros(length(x0),1);
 
 for i=1: length(x0)
