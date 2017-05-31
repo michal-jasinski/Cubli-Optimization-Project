@@ -1,13 +1,5 @@
-for i = 1 : 10
-    if i < 3
-%         continue;
-    else
-        disp(i);
-    end
-    disp(i)
-         
-end
 
-disp('koniec');
     
+matrix = [1 1 1; 1 1 1; 2 2 2]
+ans = get_vector_from_matrix(matrix)
         

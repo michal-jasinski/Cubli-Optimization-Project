@@ -12,7 +12,7 @@ format long e; format compact;
 %% initialization script
 init;
 
-u0=zeros(nodes,3);
+u0=zeros(3*nodes,1);
 LB = [-0.5; -0.5; -0.5];
 UB = [0.5; 0.5; 0.5];
 

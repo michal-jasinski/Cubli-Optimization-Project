@@ -13,7 +13,7 @@ tau = linspace(0,T,nodes+1);
 % odleg³oœæ czasowa pomiêdzy tymi wêz³ami
 dtau = diff(tau);
 % s = size(dtau);
-
+u = get_matrix_from_vector(u);
 % sterowanie zak³adamy, ¿e jest to wektor (3*nodes,1)
 % k = 0;
 % u_matrix = zeros(nodes,3);
@@ -92,7 +92,7 @@ for j = length(dtau): -1 : 1
 %     gradient = [gradient; gradient_tmp];
     
 end
-
+gradient = get_vector_from_matrix(gradient);
 % gradient = gradient(2:end);
 
 end

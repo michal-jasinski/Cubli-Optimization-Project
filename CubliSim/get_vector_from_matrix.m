@@ -1,7 +1,7 @@
 function vector = get_vector_from_matrix(matrix)
     
     [row, col] = size(matrix);
-    vector = zeros(row*col);
+    vector = zeros(row*col,1);
     k = 1;
     
     for i = 1 : row

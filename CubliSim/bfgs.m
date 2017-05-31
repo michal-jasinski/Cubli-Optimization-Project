@@ -48,7 +48,7 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
         for j = 1 : 50
             u_prev = u;
             for k = 1 : length(u)
-                value = s*d(k);
+                value = u_prev(k) + s*d(k);
                 if value > ub
                     u(k) = ub;
                 elseif value < lb
@@ -58,7 +58,7 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
                 end
             end
             
-            [t,x,psi,gradient_tmp] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u,nodes);
+            [t,x,psi,gradient_prev] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u,nodes);
             Q_new = x(end,end);
             if(Q_new < Q)
                 step = step * expansion;
