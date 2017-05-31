@@ -1,0 +1,12 @@
+for i = 1 : 10
+    if i > 3
+        i
+        break;
+    else
+        disp(i);
+    end
+end
+
+disp('koniec');
+    
+        

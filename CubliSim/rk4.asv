@@ -15,15 +15,15 @@ dtau = diff(tau);
 % s = size(dtau);
 
 % sterowanie zak³adamy, ¿e jest to wektor (3*nodes,1)
-% k = 0;
-% u_matrix = zeros(nodes,3);
-% for i = 1 : nodes
-%     for j = 1 : 3
-%         k = k + 1;
-%         u_matrix(i,j) = u(k);
-%     end
-% end
-% u = u_matrix;
+k = 0;
+u_matrix = zeros(nodes,3);
+for i = 1 : nodes
+    for j = 1 : 3
+        k = k + 1;
+        u_matrix(i,j) = u(k);
+    end
+end
+u = u_matrix;
 
 % iloœæ próbek na ka¿dy wêze³ strukturalny
 n = ceil(dtau/h0);
@@ -61,7 +61,7 @@ end
 psi = zeros(size(x));
 psi(end,:) = [zeros(13,1);-1]; % do przemyœlenia
 % gradient = 0;
-gradient = zeros(length(dtau),3);
+gradient = zeros(
 
 % Solution of equilibrium equations
 for j = length(dtau): -1 : 1
