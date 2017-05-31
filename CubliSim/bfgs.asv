@@ -4,13 +4,12 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
     % initialize parameters
     init;
     
-    u_prev = 0;
+    u_temp = 0;
     Q_prev = 0;
-    gradient_prev = 0;
+    gradient_temp = 0;
     
     % reneval parameter
-    Renewal = 1;
-    step = 1;
+    Reneval = 1;
     contraction = 0.5;
     
     % algorithm iterations
@@ -24,7 +23,7 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
             break;
         end
 
-        if(Renewal == 1)
+        if Reneval == 1
             Weight = eye(length(gradient));
         else
             Weight = Weight; % dopytac, jaki wymiar wektora W sterowanie jest (10 na 3)
@@ -32,45 +31,51 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
 
         direction = -Weight\gradient;
 
-        if transpose(d)*gradient >= 0
-            if i == 1
-                % na kierunku gradientu nie ma poprawy - KONIEC
+        if transpose(direction)*gradient >= 0
+            if Reneval == 1
+                % there is no improvement in the direction of the gradient
                 break;
             else
                 Reneval = 1;
                 continue;
             end
         end
-
+        
         % line search
+        step = 1;
         for j = 1 : 50
-            u_prev = u;
-            for k = 1 : length(u)
-                value = u_prev(k) + s*d(k);
+            u_temp = u;
+            % get new control with saturation
+            for k = 1 : length(u_temp)
+                value = u_temp(k) + step*direction(k);
                 if value > ub
-                    u(k) = ub;
+                    u_temp(k) = ub;
                 elseif value < lb
-                     u(k) = lb;
+                     u_temp(k) = lb;
                 else
-                    u(k) = value;
+                    u_temp(k) = value;
                 end
             end
             
-            [t,x,psi,gradient_prev] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u,nodes);
+            % calculate quality indicator in this point
+            [t,x,psi,gradient_temp] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u_temp,nodes);
             Q_new = x(end,end);
-            if(Q_new < Q)
-                step = step * expansion;
-            else
-                if j == 1
-                    R = 1;
-                else
-                    R = 0;
-                end
+            
+            % check stop conditions
+            if Q_new < Q
+                Reneval = 0;
+                u = u_temp;
                 break;
+            else
+                if step > 1e-15
+                    step = step * contraction;
+                else
+                    Reneval = 1;  
+                    break;
+                end
             end   
         end
     end
-
 
 end
 
