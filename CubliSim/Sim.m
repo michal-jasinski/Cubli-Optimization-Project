@@ -13,12 +13,16 @@ format long e; format compact;
 init;
 
 u0=zeros(3*nodes,1);
-LB = [-0.5; -0.5; -0.5];
-UB = [0.5; 0.5; 0.5];
+lb = 0.5;
+ub = -0.5;
+epsilon = 1e-6;
+maxIter = 100;
 
-options = optimoptions('fminunc','GradObj','on','Algorithm','trust-region',...
-                        'Display','iter-detailed');
-retval = fminunc(@get_quality_indicator,u0,options)
+% options = optimoptions('fminunc','GradObj','on','Algorithm','trust-region',...
+%                         'Display','iter-detailed');
+% retval = fminunc(@get_quality_indicator,u0,options)
+
+retval = bfgs(u0,epsilon,lb,ub,maxIter)
 
 %  retval = [
 %      6.445541347944299e-02     2.850171357943448e-02    -9.653822335520916e-02
