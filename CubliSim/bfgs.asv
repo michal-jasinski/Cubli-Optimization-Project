@@ -24,8 +24,6 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
             break;
         end
 
-        gradient = get_vector_from_matrix(gradient);
-
         if(Renewal == 1)
             Weight = eye(length(gradient));
         else

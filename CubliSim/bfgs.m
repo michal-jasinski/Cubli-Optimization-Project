@@ -24,8 +24,6 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
             break;
         end
 
-        gradient = get_vector_from_matrix(gradient);
-
         if(Renewal == 1)
             Weight = eye(length(gradient));
         else
@@ -61,14 +59,11 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
             [t,x,psi,gradient_prev] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u,nodes);
             Q_new = x(end,end);
             if(Q_new < Q)
-                step = step * expansion;
+                Reneval = 0;
+                u_prev = u;
+                continue;
             else
-                if j == 1
-                    R = 1;
-                else
-                    R = 0;
-                end
-                break;
+                step = step * contraction;
             end   
         end
     end
