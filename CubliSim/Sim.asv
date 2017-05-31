@@ -29,7 +29,7 @@ global Q_hist;
 Q_hist = zeros(10000,1);
 global iter;
 iter = 1;
-options = optimoptions('fminunc','GradObj','on','Algorithm','trust-region');
+%options = optimoptions('fminunc','GradObj','on','Algorithm','trust-region');
 retval = fminunc(@bfgs,u0,options)
 
 

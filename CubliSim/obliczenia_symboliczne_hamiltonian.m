@@ -30,15 +30,19 @@ dpww=T;
 dPIK=transpose(phi_ht)*Theta_0_ht^-1*(pwh-pww);
 A_IKtmp=eye(3)+2*PIK(1)*Skew(PIK(2:4))+2*Skew(PIK(2:4))^2;
 I_m=transpose(A_IKtmp*m);
-dQ=(I_m(1)/norm(m))^2+(I_m(2)/norm(m))^2+(I_m(3)/norm(m)-1)^2;
+dQ=(I_m(1)/norm(m))^2+(I_m(2)/norm(m))^2+(I_m(3)/norm(m)-1)^2;%+(wh(1)^2+wh(2)^2+wh(3)^2)/10000;
 
 X=[g; pwh;pww; PIK; Q];
 dX=[dg;dpwh;dpww;dPIK;dQ];
 for i=1:14
     f(i)=dX(i);
 end
+for i=1:14
+    dQ_dx(i)=-diff(dQ,X(i));
+end
 
-
+dQ_dx=subs(dQ_dx,[m,Theta_0_ht],[[0.1661; 0.1473; 0.1537],...
+         [0.0304 -0.0130 -0.0135; -0.013 0.0342 -0.0128; -0.0135 -0.0128 0.0331]])
 
 f = transpose(subs(f,[m,Theta_0_ht],[[0.1661; 0.1473; 0.1537],...
          [0.0304 -0.0130 -0.0135; -0.013 0.0342 -0.0128; -0.0135 -0.0128 0.0331]]));
@@ -49,4 +53,3 @@ H=transpose(psi)*f-dQ;
 for i=1:3
     dH_du(i)=diff(H,T(i));
 end
-
