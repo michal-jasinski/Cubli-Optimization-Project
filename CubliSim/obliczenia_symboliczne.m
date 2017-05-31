@@ -27,7 +27,7 @@ dpww=T;
 dPIK=transpose(phi_ht)*Theta_0_ht^-1*(pwh-pww);
 A_IKtmp=eye(3)+2*PIK(1)*Skew(PIK(2:4))+2*Skew(PIK(2:4))^2;
 I_m=transpose(A_IKtmp*m);
-dQ=(I_m(1)/norm(m))^2+(I_m(2)/norm(m))^2+(I_m(3)/norm(m)-1)^2;
+dQ=(I_m(1)/norm(m))^2+(I_m(2)/norm(m))^2+(I_m(3)/norm(m)-1)^2 + 0.01*(wh(1)^2+wh(2)^2+wh(3)^2);
 
 X=[g; pwh;pww; PIK; Q];
 dX=[dg;dpwh;dpww;dPIK;dQ];
@@ -41,12 +41,9 @@ for i =  1 : 14
     end
 end
 
-
-
 f = transpose(subs(f,[m,Theta_0_ht],[[0.1661; 0.1473; 0.1537],...
          [0.0304 -0.0130 -0.0135; -0.013 0.0342 -0.0128; -0.0135 -0.0128 0.0331]]))
 
 d1_f_sprzezona = subs(dF,[m,Theta_0_ht],[[0.1661; 0.1473; 0.1537],...
-         [0.0304 -0.0130 -0.0135; -0.013 0.0342 -0.0128; -0.0135 -0.0128 0.0331]]);
+         [0.0304 -0.0130 -0.0135; -0.013 0.0342 -0.0128; -0.0135 -0.0128 0.0331]])
      
-

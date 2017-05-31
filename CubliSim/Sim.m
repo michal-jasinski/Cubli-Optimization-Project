@@ -10,31 +10,23 @@ close all;
 format long e; format compact;
 
 %% initialization script
-init
+init;
 
-u0 = [4,4,4;1,1,1;3,2,3;0 0 0;3,3,3 ]
-u0=zeros(5,3);
-% for i = 1 : 10
-%       u0(i,1) = 1.205787;
-%       u0(i,2) = 0.4361158;
-%       u0(i,3) = -1.720702;
-% end
+u0=zeros(nodes,3);
 
-u = [ 3.759137302933496e-02     7.957694477885314e-03    -7.051632208034343e-02
-     1.191776768252162e-02    -1.057997480541581e-02    -1.707723219940835e-02
-     3.237050511267915e-03    -1.366680914984241e-02    -7.231339670213214e-04
-    -2.189740416313436e-03    -1.000065197291657e-02     7.579525565884447e-03
-     1.175117177712085e-03    -2.718723914399226e-03     1.257035932692729e-03];
-global Q_hist;
-Q_hist = zeros(10000,1);
-global iter;
-iter = 1;
-options = optimoptions('fminunc','GradObj','on','Algorithm','trust-region');
+options = optimoptions('fminunc','GradObj','on','Algorithm','trust-region',...
+                        'Display','iter-detailed');
 retval = fminunc(@bfgs,u0,options)
 
-
+% retval = [
+%      7.735571067387728e-02     2.967611502000844e-02    -1.110622332274811e-01
+%     -1.498368789357186e-02    -7.405833694822156e-03     2.106634914182178e-02
+%     -9.345755394289819e-03    -3.225632194952382e-03     1.522620423314977e-02
+%      2.649579858168301e-03     7.044889982018520e-04    -4.452646728321130e-03
+%      3.376866417163700e-04     5.028336823312962e-05    -3.518435708294290e-04];
+ 
 % simulation
-[t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,retval);
+[t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,retval,nodes);
 
 % Extract data
 PIK=x(:,10:13);
@@ -73,10 +65,10 @@ wh=(pwh-pww)*Theta_0_ht^-1;
 % wheel velocity
 ww=pww*Theta_w^-1-wh;
 
-% figure
-% plot(t,wh)
-% ylabel('\omega_h [rad/s]')
-% xlabel('time [s]')
+figure(4)
+plot(t,wh)
+ylabel('\omega_h [rad/s]')
+xlabel('time [s]')
 
 % figure
 % plot(t,ww/(2*pi)*60)
@@ -84,5 +76,5 @@ ww=pww*Theta_w^-1-wh;
 % xlabel('time [s]')
 
 quality_indicator = x(:,14);
-figure(4);
-plot(quality_indicator);
+figure(5);
+plot(t,quality_indicator);

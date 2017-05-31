@@ -11,7 +11,7 @@ function [ d_psi,gradient ] = rhs_sprzezone(t,psi,x,u)
     
     get_f_and_f_sprzezona;
     
-    H = transpose(psi)*f - x(14);
+%   H = transpose(psi)*f - x(14);
     d1_f_sprzezona = double(d1_f_sprzezona);
     d_psi=-d1_f_sprzezona*psi;
     gradient=[ psi(7); psi(8); psi(9)];
