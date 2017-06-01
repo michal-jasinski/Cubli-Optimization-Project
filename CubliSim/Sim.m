@@ -22,7 +22,7 @@ maxIter = 500;
 %                         'Display','iter-detailed');
 % retval = fminunc(@get_quality_indicator,u0,options)
 
-% retval = bfgs(u0,epsilon,lb,ub,maxIter)
+ retval = bfgs(u0,epsilon,lb,ub,maxIter)
 
  
 retval = [

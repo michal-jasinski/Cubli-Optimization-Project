@@ -45,13 +45,8 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
 
         direction = -Weight\gradient;
         if transpose(direction)*gradient >= 0
-            if Reneval == 1
-                % there is no improvement in the direction of the gradient
-                break;
-            else
-                Reneval = 1;
-                continue;
-            end
+            Reneval = 1;
+            continue;
         end
         
         % line search
@@ -78,14 +73,12 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
                 if i < 200
                     % expansion
                     while Q_temp < Q
-                        
                         Q = Q_temp;
                         Reneval = 0;
                         s = u_temp - u;
                         r = gradient_temp - gradient;
                         u = u_temp;
                         gradient = gradient_temp;
-                        
                         % get new control with saturation
                          for k = 1 : length(u_temp)
                             value = u_temp(k) + step*direction(k);
@@ -110,22 +103,23 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
                     u = u_temp;
                     gradient = gradient_temp;
                 end
-                
+           
                 break;
             else
                 if step > 1e-15
                     i
                     step = step * contraction;
                 else
-                    Reneval = 1;
-                    if i == 1
+                    if Reneval == 1
                         error = 1;
+                    else
+                        Reneval = 1;
+                        
                     end
                     break;
                 end
             end   
         end
-        Reneval = 1;
     end
     optimal_control = u;
 end
