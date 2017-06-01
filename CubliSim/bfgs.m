@@ -6,7 +6,9 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
     
     % reneval parameter
     Reneval = 1;
-    contraction = 0.5;
+    contraction = 0.1;
+    error = 0;
+    optimal_control = zeros(size(u));
     
     % first gradient calculation
     [t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u,nodes);
@@ -15,13 +17,13 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
     % algorithm iterations
     for i = 1 : maxIter
         
-        disp('Iteration - ');disp(i);
-        disp(Q);
+        fprintf('Iteration - %d  Q = %.10f  norm = %.10f\n',i,Q,norm(gradient));
         % check stop condition
-        if(norm(gradient) < epsilon) 
+        
+        if(norm(gradient) < epsilon || error == 1) 
             break;
         end
-
+        
         if Reneval == 1
             Weight = eye(length(gradient));
         else
@@ -32,7 +34,6 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
         end
 
         direction = -Weight\gradient;
-
         if transpose(direction)*gradient >= 0
             if Reneval == 1
                 % there is no improvement in the direction of the gradient
@@ -44,8 +45,8 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
         end
         
         % line search
-        step = 1;
-        for j = 1 : 50
+        step = 2;
+        for j = 1 : 100
             u_temp = u;
             % get new control with saturation
             for k = 1 : length(u_temp)
@@ -58,30 +59,33 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
                     u_temp(k) = value;
                 end
             end
-            
             % calculate quality indicator in this point
-            gradient_prev = gradient;
-            [t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u_temp,nodes);
-            Q_temp = x(end,end)
+            [t,x,psi,gradient_temp] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u_temp,nodes);
+            Q_temp = x(end,end);
             
             % check stop conditions
             if Q_temp < Q
                 Q = Q_temp;
                 Reneval = 0;
                 s = u_temp - u;
-                r = gradient - gradient_prev;
+                r = gradient_temp - gradient;
                 u = u_temp;
+                gradient = gradient_temp;
                 break;
             else
                 if step > 1e-15
                     step = step * contraction;
                 else
-                    Reneval = 1;  
+                    Reneval = 1;
+                    if i == 1
+                        error = 1;
+                    end
                     break;
                 end
             end   
         end
+        Reneval = 1;
     end
-
+    optimal_control = u;
 end
 
