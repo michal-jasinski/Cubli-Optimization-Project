@@ -1,7 +1,8 @@
 % Implementation of the Cubli-Corner Balancing according to the CDC-Article
 % Main Author: Michael Muehlebach
-% Script has been modified by Jakub Wasik i Michal Jasinski
-% in order to find optimal control by solving optimization problem
+% Script has been modi
+
+
 
 clear all;
 close all;
@@ -41,8 +42,7 @@ maxIter = 100;
      3.703750421403575e-02];
 
 % simulation
-[t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,...
-                         Theta_0_ht,m,optimal_control,nodes);
+[t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,optimal_control,nodes);
 
 % Extract data
 PIK = x(:,10:13);
@@ -51,8 +51,8 @@ pww = x(:,7:9);
 quality_indicator = x(:,14);
 
 % express m-vector in inertial coordinate frame
-I_m = zeros(length(t),3);
-I_pwh = zeros(length(t),3);
+I_m=zeros(length(t),3);
+I_pwh=zeros(length(t),3);
 
 for k = 1 : length(t)
     A_IKtmp    = eye(3)+2*PIK(k,1)*Skew(PIK(k,2:4))+2*Skew(PIK(k,2:4))^2;

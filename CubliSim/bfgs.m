@@ -18,7 +18,6 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
     contraction = 0.5;
     expansion = 3;
     error = 0;
-    optimal_control = zeros(size(u));
     
     % first gradient calculation
     [t,x,psi,gradient] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,u,nodes);
@@ -70,7 +69,7 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
             
             % check stop conditions
             if Q_temp < Q
-                if i < 200
+                if i < 50
                     % expansion
                     while Q_temp < Q
                         Q = Q_temp;
@@ -107,7 +106,6 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
                 break;
             else
                 if step > 1e-15
-                    i
                     step = step * contraction;
                 else
                     if Reneval == 1

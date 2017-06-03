@@ -28,7 +28,7 @@ m=-g_0/9.81*0.27;
 %% Initial conditions
 
 % define initial condtions
-phi=1/180*pi;   % initial inclination, rotate around x-axis of the inertial frame
+phi=1/20*pi;   % initial inclination, rotate around x-axis of the inertial frame
 
 A_IKtmp=expm(Skew([1;1;1])*phi)*R_IK_0;
 PIK_0=A_IK2Quat(A_IKtmp);   % form the quaternion from the rotation matrix
