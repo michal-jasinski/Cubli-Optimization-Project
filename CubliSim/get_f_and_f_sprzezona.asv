@@ -1,3 +1,18 @@
+global f;
+global d1_f_sprzezona;
+global g1 g2 g3;
+global pwh1 pwh2 pwh3;
+global pww1 pww2 pww3; 
+global PIK1 PIK2 PIK3 PIK4;
+global T1 T2 T3; 
+
+g1 = 0; g2 = x(2); g3 = x(3);
+    pwh1 = x(4); pwh2 = x(5); pwh3 = x(6);
+    pww1 = x(7); pww2 = x(8); pww3 = x(9); 
+    PIK1 = x(10); PIK2 = x(11); PIK3 = x(12); PIK4 = x(13);
+
+    T1 = u(1); T2 = u(2); T3 = u(3);
+    
 
 f = [
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         g2*((314050000*pwh1)/6556511 + (7630000*pwh2)/177203 + (435340000*pwh3)/6556511 - (314050000*pww1)/6556511 - (7630000*pww2)/177203 - (435340000*pww3)/6556511) - g3*((8150000*pwh1)/177203 + (11135000*pwh2)/177203 + (7630000*pwh3)/177203 - (8150000*pww1)/177203 - (11135000*pww2)/177203 - (7630000*pww3)/177203);
