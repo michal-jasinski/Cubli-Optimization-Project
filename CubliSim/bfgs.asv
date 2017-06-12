@@ -30,7 +30,7 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
         fprintf('Iteration - %d  Q = %.10f  norm = %.10f\n',i,Q,norm(gradient));
         % check stop condition
         
-        if(norm(gradient) < epsilon || error == 1) 
+        if(norm(gradient) < epsilon || error == ) 
             break;
         end
         
@@ -120,6 +120,7 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
             end   
         end
     end
+    optimal_control_prev = optimal_control;
     optimal_control = u;
 end
 

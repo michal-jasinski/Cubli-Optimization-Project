@@ -8,8 +8,7 @@ PIK=x(10:13);
 Q=x(14);
 
 % angular velocity
-Theta_0_ht_inv = inv(Theta_0_ht);
-wh=Theta_0_ht_inv*(p_wh-p_ww);
+wh=Theta_0_ht\(p_wh-p_ww);
 
 % control
 
@@ -28,7 +27,8 @@ dot_pww=u;
 phi_ht=1/2*[-PIK(2:4), PIK(1)*eye(3)-PIK_skew];
 
 % kinematics
-PIK_dot=phi_ht'*Theta_0_ht_inv*(p_wh-p_ww);
+PIK_dot=phi_ht'*(Theta_0_ht\(p_wh-p_ww)); % --> slower;
+% PIK_dot = phi_ht'*wh;
 
 % quality indicator
 A_IKtmp=eye(3)+2*PIK(1)*PIK_skew+2*PIK_skew^2;
