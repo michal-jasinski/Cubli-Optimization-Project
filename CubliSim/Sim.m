@@ -15,7 +15,7 @@ u0 = zeros(3*nodes,1);
 lb = -2;
 ub = 2;
 epsilon = 2e-4;
-maxIter = 100;
+maxIter = 200;
 
 % options = optimoptions('fminunc','GradObj','on','Algorithm','trust-region',...
 %                         'Display','iter-detailed');
@@ -101,11 +101,11 @@ xlabel('Czas [s]');
 ylabel('Wartoœæ wskaŸnika jakoœci');
 
 subplot(2,2,2); hold on; grid on;
-plot(t,acos(I_m(:,1)/norm(m))/pi*180);
-plot(t,acos(I_m(:,2)/norm(m))/pi*180);
-plot(t,acos(I_m(:,3)/norm(m))/pi*180);
+plot(t,acos(I_m(:,1)/norm(m)));
+plot(t,acos(I_m(:,2)/norm(m)));
+plot(t,acos(I_m(:,3)/norm(m)));
 xlabel('Czas [s]')
-ylabel('K¹t nachylenia kostki [deg]');
+ylabel('K¹t nachylenia kostki [rad]');
 legend('X', 'Y', 'Z');
 
 subplot(2,2,3); hold on; grid on;

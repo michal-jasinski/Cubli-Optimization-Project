@@ -41,5 +41,5 @@ Q_0 = 0;
 
 x0 = [g_0;pwh_0;pww_0;PIK_0;Q_0];
 sample_time = 0.005;
-time = 1;
+time = 1.5;
 nodes = 5;

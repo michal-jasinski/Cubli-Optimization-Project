@@ -45,7 +45,7 @@ pww_0=[0;0;0];
 pwh_0=[0;0;0];
 
 Q_0 = 0;
-
+nodes=5;
 sample_time = 0.005;
 time = 0.5;
 epsilon=0.00000001;
@@ -56,8 +56,8 @@ dQ_dx0 = zeros(length(x0),1);
 
 for i=1: length(x0)
     x0_epsilon(i) = x0(i)+epsilon;
-    [t1,x_epsilon,psi_epsilon] = rk4(@rhs,@rhs_sprzezone,x0_epsilon,time,sample_time,Theta_0_ht,m,zeros(5,3));
-    [t,x,psi] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,zeros(5,3));
+    [t1,x_epsilon,psi_epsilon] = rk4(@rhs,@rhs_sprzezone,x0_epsilon,time,sample_time,Theta_0_ht,m,zeros(3*nodes,1),nodes);
+    [t,x,psi] = rk4(@rhs,@rhs_sprzezone,x0,time,sample_time,Theta_0_ht,m,zeros(3*nodes,1),nodes);
     dQ_dx0(i) = (x_epsilon(end,end)-x(end,end))/epsilon;
     x0_epsilon = x0;
 end

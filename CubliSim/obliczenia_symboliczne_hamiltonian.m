@@ -42,7 +42,7 @@ f = transpose(subs(f,[m,Theta_0_ht],[[0.1661; 0.1473; 0.1537],...
          [0.0304 -0.0130 -0.0135; -0.013 0.0342 -0.0128; -0.0135 -0.0128 0.0331]]));
 dQ=subs(dQ,[m],[[0.1661; 0.1473; 0.1537]]);
 
-H=transpose(psi)*f-dQ;
+H=transpose(psi)*f-dQ
 
 for i=1:3
     dH_du(i)=diff(H,T(i));

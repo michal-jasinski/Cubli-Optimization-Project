@@ -12,7 +12,7 @@ function [ optimal_control ] = bfgs(u,epsilon,lb,ub,maxIter)
     % ostatnie dzia³a najlepiej - chyba
     % initialize parameters
     init;
-    maxIterExpansion = 50;
+    maxIterExpansion = 100;
     
     % reneval parameter
     Reneval = 1;
